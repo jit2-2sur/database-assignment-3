@@ -1,0 +1,82 @@
+/* assignment questions [here I've used some particular values for tweet_id or user_id where there was mentioned in questions]  */   
+/* 1. Fetch all users name from database. */
+
+SELECT u.user_name FROM User u;
+
+
+
+
+/* 2. Fetch all tweets of user by user id most recent tweets first. */
+
+SELECT t.content, t.user_id, t.created_at FROM Tweet t
+WHERE t.user_id = 2
+ORDER BY t.created_at DESC;
+
+
+
+
+
+
+/* 3. Fetch like count of particular tweet by tweet id. */
+
+SELECT COUNT(*) AS Like_count
+FROM Like_tweet lt
+WHERE lt.tweet_id = 1;
+
+
+
+
+
+
+/* 4. Fetch retweet count of particular tweet by tweet id. */
+
+SELECT COUNT(*) AS Retweet_count
+FROM Retweet rt
+WHERE rt.original_tweet_id = 1;
+
+
+
+
+
+/* 5. Fetch comment count of particular tweet by tweet id. */
+
+SELECT COUNT(*) AS CommentCount
+FROM Comment c
+WHERE c.original_tweet_id = 2;
+
+
+
+
+
+/* 6. Fetch all user’s name who have retweeted particular tweet by tweet id. */
+
+SELECT u.user_name
+FROM Retweet r
+JOIN User u 
+ON r.user_id = u.user_id
+WHERE r.original_tweet_id = 1;
+
+
+
+
+
+/* 7. Fetch all commented tweet’s content for particular tweet by tweet id. */
+
+SELECT t.content as commented_tweets
+FROM Tweet t
+JOIN Comment c
+ON t.tweet_id = c.comment_id 
+WHERE c.original_tweet_id = 2;
+
+
+
+
+
+/* 8. Fetch user’s timeline (All tweets from users whom I am following with tweet content and user name who has tweeted it) */
+
+SELECT t.content, u.user_name
+FROM Tweet t
+INNER JOIN User u ON t.user_id = u.user_id
+INNER JOIN Follow f ON t.user_id = f.followee_id
+WHERE f.follower_id = 2
+ORDER BY t.created_at DESC;
